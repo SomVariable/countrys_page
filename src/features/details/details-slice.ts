@@ -1,12 +1,21 @@
+import { Country } from './../../types/country';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { Extra } from 'types';
 
-export const loadCountryByName = createAsyncThunk(
+export const loadCountryByName = createAsyncThunk<
+  {data: Country[]},
+  string,
+  {extra: Extra}
+>(
   '@@details/load-country-by-name',
   (name, {extra: {client, api}}) => {
     return client.get(api.searchByCountry(name));
   }
 );
-export const loadNeighborsByBorder = createAsyncThunk(
+export const loadNeighborsByBorder = createAsyncThunk<
+  
+
+>(
   '@@details/load-neighbors',
   (borders, {extra: {client, api}}) => {
     return client.get(api.filterByCode(borders));
