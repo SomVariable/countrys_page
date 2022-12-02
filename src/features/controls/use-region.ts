@@ -1,14 +1,24 @@
-import {useSelector, useDispatch} from 'react-redux'
+import { useAppDispatch } from './../../store';
+import {useSelector} from 'react-redux'
+import { selectRegion } from './controls-selectors';
 
-import { selectRegion, setRegion } from './controls-slice';
+import { setRegion } from './controls-slice';
+import { CountryOption } from './CustomSelect';
+import { Region } from 'types';
+import { SingleValue } from 'react-select';
 
+type onSelect = (reg: SingleValue<CountryOption>) => void
 
-export const useRegion = () => {
-  const dispatch = useDispatch();
+export const useRegion = ():[Region | '', onSelect] => {
+  const dispatch = useAppDispatch();
   const region = useSelector(selectRegion);
 
-  const handleSelect = (reg) => {
-    dispatch(setRegion(reg?.value || ''))
+  const handleSelect: onSelect = (reg) => {
+    if(reg){
+      dispatch(setRegion(reg.value))
+    }else{
+      dispatch(setRegion(''))
+    }
   }
 
   return [region, handleSelect];
